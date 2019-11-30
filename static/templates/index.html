@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Manifesto for Open Language Technology</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+</head>
+<body>
+<section class="section">
+<div class="container columns">
+  <div class="column is-three-fifths is-offset-one-fifth"> 
+  <article class="content">
+    <h1 class="title">A Manifesto for Open Language Technology</h1>
+    <hr>
+
+    <div style="font-size: 120%; margin-top: 2rem">
+      We, the undersigned, profess our desire for the following principles to be upheld by all vendors, 
+      producers and distributors in the software and digital services industries:
+
+      <ul>
+        <li>
+          <strong>Open localisation:</strong>
+          all software should be localisable independent of the producer of the software.
+        </li>    
+        <li>
+          <strong>Open interfaces:</strong>
+          all language-related programming interfaces should be open by default.
+        </li>    
+        <li>
+          <strong>Open resources:</strong>
+          all language resources should be open and accessible for everyone, given the permission of the language community.
+        </li>    
+        <li>
+          <strong>Accessible standards:</strong>
+          language-related international standards should be respected, fully implemented and implementations should be updated regularly.
+        </li>    
+      </ul>
+
+      <p>
+        We believe adherence to the above principles would lead to a better world
+        for indigenous and minority languages, and agree that it is of utmost importance to
+        push ahead with enabling indigenous self-determination in the digital realm.
+      </p>
+
+      <p>
+        <a href="#sign" style="margin-top: 2rem" class="button is-primary">Sign the Manifesto!</a>
+      </p>
+    </div>
+
+  </article>
+
+  <article class="content" style="margin-top: 2rem;">
+    <hr>
+    <h3 class="title" id="signatories">Signatories</h3>
+
+    <div class="columns">
+      <div class="column">
+        <ul>
+            {{#each signatories}}
+            {{#if organisation}}
+            {{#if url}}
+            <li>{{name}} (<a href="{{url}}">{{organisation}}</a>)</li>
+            {{else}}
+            <li>{{name}} ({{organisation}})</li>
+            {{/if}}
+            {{else}}
+            <li>{{name}}</li>
+            {{/if}}
+            {{/each}}
+        </ul>
+      </div>
+      <div class="column">
+        <h3 class="is-hidden-tablet" style="margin-top: 1rem">Quotes</h3>
+        {{#each quotes}}
+        <div class="card" style="margin-bottom: 2rem;">
+          <div class="card-content">
+            <p style="font-size: 150%; font-weight: 600; line-height: 1.75rem;">
+              “{{comment}}”
+            </p>
+            <p>
+              {{#if organisation}}
+              {{#if url}}
+              <span>{{name}} (<a href="{{url}}">{{organisation}}</a>)</span>
+              {{else}}
+              <span>{{name}} ({{organisation}})</span>
+              {{/if}}
+              {{else}}
+              <span>{{name}}</span>
+              {{/if}}
+            </p>
+          </div>
+        </div>
+        {{/each}}
+
+      </div>
+    </div>
+  </article>
+
+  <article class="content">
+    <hr class="is-hidden-mobile" style="margin-top: 4rem;">
+    <h2 class="title" id="sign">Sign the manifesto</h2>
+
+    <p>
+      Add your signature to support the introduction of the terms of our manifesto.
+    </p>
+
+    <div class="columns">
+      <div class="column is-four-fifths"> 
+        <form class="has-background-light" style="padding: 1rem;" action="/submit" method="POST">
+          <div class="field">
+            <label class="label" for="name">Name</label>
+            <div class="control">
+              <input class="input" type="text" name="name" id="name" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="email">Email Address</label>
+            <div class="control">
+              <input class="input" type="email" name="email" id="email" required>
+            </div>
+          </div>
+          
+          <div class="field">
+            <label class="label" for="organisation">Organisation <small>(if applicable)</small></label>
+            <div class="control">
+                <input class="input" type="text" name="organisation" id="organisation">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="url">Organisation Website URL <small>(optional)</small></label>
+            <div class="control">
+              <input class="input" type="text" name="url" id="url">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="comments">Comments <small>(optional)</small></label>
+            <div class="control">
+              <textarea class="textarea" rows="2" type="text" name="comments" id="comments"></textarea>
+            </div>
+          </div>
+
+          <div class="message is-primary">
+            <div class="message-body">
+                <strong>By signing, you agree to our <a href="/privacy" target="_blank" rel="noopener noreferrer">short privacy policy</a></strong>, and agree to
+                have your name, organisation, its URL and your comments published on this webpage.
+              </div>
+          </div>
+
+          <div class="field">
+            <label class="checkbox">
+              <input type="checkbox" name="mailing_list_opt_in" checked>
+              I wish to receive email updates about the manifesto
+            </label>
+          </div>
+
+          <div class="field is-grouped">
+            <div class="control">
+              <button type="submit" class="button is-link">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </article>
+
+  <div class="message is-small is-info">
+    <div class="message-body">
+      <p>An initiative of <a href="http://divvun.no">Divvun</a> and <a href="http://giellatekno.uit.no/">Giellatekno</a> &middot <a class="is-small" href="#">Translate on GitHub</a></p>
+      <p style="margin-top: 8px">This page is moderated. Data may be edited for accuracy or to remove offensive content.</p>
+    </div>
+  </div>
+  <footer>
+      
+  </footer>
+</div>
+</section>
+</body>
+</html>
