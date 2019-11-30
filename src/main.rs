@@ -176,6 +176,18 @@ async fn success(req: tide::Request<State>) -> tide::Response {
     .unwrap_or_else(|e: tide::Error| e.into_response())
 }
 
+async fn privacy(req: tide::Request<State>) -> tide::Response {
+    async move {
+        let hb = &req.state().handlebars;
+        let body = hb.render("privacy", &json!({})).with_err_status(500)?;
+        Ok(tide::Response::new(200)
+            .body_string(body)
+            .set_mime(mime::TEXT_HTML_UTF_8))
+    }
+    .await
+    .unwrap_or_else(|e: tide::Error| e.into_response())
+}
+
 async fn index(req: tide::Request<State>) -> tide::Response {
     // TODO show actual errors
     index_inner(req).await.unwrap_or_else(|e| e.into_response())
@@ -198,6 +210,7 @@ async fn main() -> Result<(), std::io::Error> {
 
     let mut app = tide::with_state(State { pool, handlebars });
     app.at("/").get(index);
+    app.at("/privacy").get(privacy);
     app.at("/success").get(success);
     app.at("/submit").post(index_post);
     app.listen("127.0.0.1:8080").await?;
