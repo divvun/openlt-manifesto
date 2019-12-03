@@ -12,38 +12,41 @@ type Connection = r2d2::PooledConnection<r2d2_sqlite::SqliteConnectionManager>;
 #[derive(Debug, Serialize)]
 struct Signatory {
     name: String,
+    title: Option<String>,
     organisation: Option<String>,
     url: Option<String>,
     comment: Option<String>,
 }
 
 fn get_signatories(conn: &Connection) -> Result<Vec<Signatory>, rusqlite::Error> {
-    let stmt = "SELECT name, organisation, url, comment FROM signatories;";
+    let stmt = "SELECT name, title, organisation, url, comment FROM signatories;";
 
     let mut prep_stmt = conn.prepare(stmt).unwrap();
     prep_stmt
         .query_map(rusqlite::NO_PARAMS, |row| {
             Ok(Signatory {
                 name: row.get(0)?,
-                organisation: row.get(1)?,
-                url: row.get(2)?,
-                comment: row.get(3)?,
+                title: row.get(1)?,
+                organisation: row.get(2)?,
+                url: row.get(3)?,
+                comment: row.get(4)?,
             })
         })
         .and_then(|mapped_rows| Ok(mapped_rows.map(|row| row.unwrap()).collect::<Vec<_>>()))
 }
 
 fn get_quotes(conn: &Connection) -> Result<Vec<Signatory>, rusqlite::Error> {
-    let stmt = "SELECT name, organisation, url, comment FROM signatories WHERE comment <> '' ORDER BY random() LIMIT 3;";
+    let stmt = "SELECT name, title, organisation, url, comment FROM signatories WHERE comment <> '' ORDER BY random() LIMIT 3;";
 
     let mut prep_stmt = conn.prepare(stmt).unwrap();
     prep_stmt
         .query_map(rusqlite::NO_PARAMS, |row| {
             Ok(Signatory {
                 name: row.get(0)?,
-                organisation: row.get(1)?,
-                url: row.get(2)?,
-                comment: row.get(3)?,
+                title: row.get(1)?,
+                organisation: row.get(2)?,
+                url: row.get(3)?,
+                comment: row.get(4)?,
             })
         })
         .and_then(|mapped_rows| Ok(mapped_rows.map(|row| row.unwrap()).collect::<Vec<_>>()))
@@ -87,6 +90,7 @@ async fn index_inner(req: tide::Request<State>) -> Result<tide::Response, tide::
 #[derive(Debug, Deserialize)]
 struct SignatureForm {
     name: Option<String>,
+    title: Option<String>,
     email: Option<String>,
     organisation: Option<String>,
     url: Option<String>,
@@ -127,6 +131,7 @@ async fn index_post_inner(mut req: tide::Request<State>) -> Result<tide::Respons
         }
         Err(_) => None,
     };
+    let title = assert_not_blank(body.title).ok();
     let organisation = assert_not_blank(body.organisation).ok();
     let comments = assert_not_blank(body.comments).ok();
     let mailing_list_opt_in: i32 = match body.mailing_list_opt_in {
@@ -144,13 +149,13 @@ async fn index_post_inner(mut req: tide::Request<State>) -> Result<tide::Respons
         .unwrap_or(std::time::Duration::new(0, 0))
         .as_secs() as i64;
 
-    // let url =
     db.execute(
         r"INSERT INTO signatories (
-        name, email, organisation, url, comment, mailing_list_opt_in, created_on
-    ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+        name, title, email, organisation, url, comment, mailing_list_opt_in, created_on
+    ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
         params![
             name,
+            title,
             email,
             organisation,
             url,

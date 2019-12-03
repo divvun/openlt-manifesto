@@ -21,7 +21,7 @@
       <ul>
         <li>
           <strong>Open localisation:</strong>
-          all software should be localisable independent of the producer of the software.
+          all software should be localisable independently of the producer of the software.
         </li>    
         <li>
           <strong>Open interfaces:</strong>
@@ -59,17 +59,17 @@
     <div class="columns">
       <div class="column">
         <ul>
-            {{#each signatories}}
+          {{#each signatories}}
+          <li>
+            {{name}}{{#if title}}, {{title}}{{/if}} 
             {{#if organisation}}
             {{#if url}}
-            <li>{{name}} (<a href="{{url}}">{{organisation}}</a>)</li>
+            (<a href="{{url}}">{{organisation}}</a>)
             {{else}}
-            <li>{{name}} ({{organisation}})</li>
+            ({{organisation}})
             {{/if}}
-            {{else}}
-            <li>{{name}}</li>
             {{/if}}
-            {{/each}}
+          </li>
         </ul>
       </div>
       <div class="column">
@@ -81,15 +81,14 @@
               “{{comment}}”
             </p>
             <p>
-              {{#if organisation}}
-              {{#if url}}
-              <span>{{name}} (<a href="{{url}}">{{organisation}}</a>)</span>
-              {{else}}
-              <span>{{name}} ({{organisation}})</span>
-              {{/if}}
-              {{else}}
-              <span>{{name}}</span>
-              {{/if}}
+                {{name}}{{#if title}}, {{title}}{{/if}} 
+                {{#if organisation}}
+                {{#if url}}
+                (<a href="{{url}}">{{organisation}}</a>)
+                {{else}}
+                ({{organisation}})
+                {{/if}}
+                {{/if}}
             </p>
           </div>
         </div>
@@ -117,6 +116,13 @@
             <label class="label" for="name">Name</label>
             <div class="control">
               <input class="input" type="text" name="name" id="name" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="title">Title <small>(optional)</small></label>
+            <div class="control">
+              <input class="input" type="text" name="title" id="title" required>
             </div>
           </div>
 
