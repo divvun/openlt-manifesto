@@ -19,7 +19,7 @@ struct Signatory {
 }
 
 fn get_signatories(conn: &Connection) -> Result<Vec<Signatory>, rusqlite::Error> {
-    let stmt = "SELECT name, title, organisation, url, comment FROM signatories;";
+    let stmt = "SELECT name, title, organisation, url, comment FROM signatories ORDER BY random();";
 
     let mut prep_stmt = conn.prepare(stmt).unwrap();
     prep_stmt
