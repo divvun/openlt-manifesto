@@ -19,7 +19,7 @@ struct Signatory {
 }
 
 fn get_signatories(conn: &Connection) -> Result<Vec<Signatory>, rusqlite::Error> {
-    let stmt = "SELECT name, title, organisation, url, comment FROM signatories ORDER BY random();";
+    let stmt = "SELECT name, title, organisation, url, comment FROM signatories WHERE type = 'sig' ORDER BY random();";
 
     let mut prep_stmt = conn.prepare(stmt).unwrap();
     prep_stmt
@@ -36,7 +36,7 @@ fn get_signatories(conn: &Connection) -> Result<Vec<Signatory>, rusqlite::Error>
 }
 
 fn get_quotes(conn: &Connection) -> Result<Vec<Signatory>, rusqlite::Error> {
-    let stmt = "SELECT name, title, organisation, url, comment FROM signatories WHERE comment <> '' ORDER BY random() LIMIT 3;";
+    let stmt = "SELECT name, title, organisation, url, comment FROM signatories WHERE type = 'sig' AND comment <> '' ORDER BY random() LIMIT 3;";
 
     let mut prep_stmt = conn.prepare(stmt).unwrap();
     prep_stmt
